@@ -7,6 +7,21 @@
 	"item": [
 		{
 			"name": "API status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f926e39a-01eb-492e-8361-0c95c00fcfe0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"id": "4b516863-fc6c-4007-9d6b-c3f4be4d8134",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
