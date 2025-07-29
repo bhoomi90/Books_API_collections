@@ -1,0 +1,461 @@
+{
+	"info": {
+		"_postman_id": "0a562b14-9972-453a-b35e-1f863385c733",
+		"name": "Books API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "API status",
+			"id": "4b516863-fc6c-4007-9d6b-c3f4be4d8134",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{baseUrl}}/status"
+			},
+			"response": []
+		},
+		{
+			"name": "List of books",
+			"id": "5f89a2f6-e8ad-4a06-b3ca-95f42cfc094d",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{baseUrl}}/books"
+			},
+			"response": []
+		},
+		{
+			"name": "Get single book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "18402db6-537c-40a6-8f67-5f21a8d01258",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "ccea4e85-e177-4da1-992a-86e667b05999",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/books/:bookId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"books",
+						":bookId"
+					],
+					"variable": [
+						{
+							"key": "bookId",
+							"value": "5"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "06266ccf-a61c-4ed9-8402-75b63fc707d6",
+						"exec": [
+							"let expectedStatusCode = pm.iterationData.get(\"statusCode\");\r",
+							"pm.test(\"Validate actual and expected Status code\", function () {\r",
+							"    pm.response.to.have.status(expectedStatusCode);\r",
+							"});\r",
+							"\r",
+							"if(expectedStatusCode == 201) {\r",
+							"    \r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.environment.set(\"orderID\", jsonData.orderId);\r",
+							"\r",
+							"    //check if response contains userId and userFirstName, userLastName etc.\r",
+							"    pm.test(\"orderId is present in response\", function () {\r",
+							"        try {\r",
+							"            //var jsonData = pm.response.json();\r",
+							"            pm.expect(jsonData).to.have.property(\"created\");\r",
+							"            pm.expect(jsonData).to.have.property(\"orderId\");\r",
+							"        } catch (e) {\r",
+							"            pm.expect.fail(\"Response is not valid in JSON\");\r",
+							"        }\r",
+							"    });\r",
+							"\r",
+							"    const schema = {\r",
+							"        type: \"object\",\r",
+							"        required: [\"created\", \"orderId\"],\r",
+							"        properties: {\r",
+							"            created: { type: \"boolean\" },\r",
+							"            orderId: { type: \"string\" }\r",
+							"        }\r",
+							"    };\r",
+							"\r",
+							"    pm.test(\"Response body is valid\", function () {\r",
+							"        pm.response.to.have.jsonSchema(schema);\r",
+							"    });\r",
+							"\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "de4d027d-e4c6-4ed7-8cf4-80aad059d7f6",
+						"exec": [
+							"// Generate random full name manually, save it before sending the request.\r",
+							"let randomName = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
+							"\r",
+							"// Store it in an environment variable (or global/local if needed)\r",
+							"pm.environment.set(\"generatedCustomerName\", randomName);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "282d6b8a-7fde-46af-863a-4f944bbed6d5",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{accessToken}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"bookId\": {{bookId}},\r\n  \"customerName\": \"{{generatedCustomerName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl}}/orders"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all book orders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cef44ac1-a829-42af-916c-9aa7dd379a40",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "79967a54-591b-402b-a23e-67575f16d6f6",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{accessToken}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "{{baseUrl}}/orders"
+			},
+			"response": []
+		},
+		{
+			"name": "Get an order by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "202a6843-0025-409f-adf6-27b91538b36c",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Fixed JSON parsing error\r",
+							"var jsonData = pm.response.json();\r",
+							"\r",
+							"// validate actual and expected data\r",
+							"pm.test(\"orderID matches expected\", function() {\r",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"orderID\")); \r",
+							"});\r",
+							"\r",
+							"console.log(\"Customer name used:\", pm.environment.get(\"generatedCustomerName\"));\r",
+							"console.log(\"Actual:\", jsonData.customerName);\r",
+							"\r",
+							"// validate actual and expected data for customerName.\r",
+							"pm.test(\"generatedCustomerName matches expected\", function() {\r",
+							"    pm.expect(jsonData.customerName).to.eql(pm.environment.get(\"generatedCustomerName\")); // this will also likely fail\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d793fd6e-6cbe-42b3-8005-2b5da5ef9d94",
+						"exec": [
+							"console.log(\"Expected Status code is : \" +pm.iterationData.get(\"statusCode\"));\r",
+							"\r",
+							"if(pm.iterationData.get(\"statusCode\") != 201) {\r",
+							"    pm.execution.skipRequest();\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "c021e78f-a9c0-4c0b-bb0e-ec6d4779539b",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{accessToken}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/orders/:orderId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null,
+							"type": "text",
+							"disabled": true
+						}
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "{{orderID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update an order by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "52344bd4-4388-4330-8f47-8930401120c5",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8d1bf3b9-0580-4b30-8f45-95ce385665d5",
+						"exec": [
+							"console.log(\"Expected Status code is : \" +pm.iterationData.get(\"statusCode\"));\r",
+							"\r",
+							"if(pm.iterationData.get(\"statusCode\") != 201) {\r",
+							"    pm.execution.skipRequest();\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "327dcee6-27ea-4dcb-bd7e-34e02c135dce",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{accessToken}}"
+					}
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"customerName\": \"{{$randomFirstName}} {{$randomLastName}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/orders/:orderId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "{{orderID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete an order by id Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1f0294b5-a57b-4a7e-bac6-d2c2b62510b8",
+						"exec": [
+							"pm.test(\"Status code is 204\", function () {\r",
+							"    pm.response.to.have.status(204);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "779ed59b-17ea-4280-a98d-a3c470eebef3",
+						"exec": [
+							"console.log(\"Expected Status code is : \" +pm.iterationData.get(\"statusCode\"));\r",
+							"\r",
+							"if(pm.iterationData.get(\"statusCode\") != 201) {\r",
+							"    pm.execution.skipRequest();\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "65f1caf8-0a3e-4585-b7eb-302573a7dd90",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{accessToken}}"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/orders/:orderId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"orders",
+						":orderId"
+					],
+					"variable": [
+						{
+							"key": "orderId",
+							"value": "{{orderID}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "d8dc3bab-72f8-4745-b20b-e5d20e193b0d",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "3eafc9db-eace-482b-bfc2-03a9f52d9eeb",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
