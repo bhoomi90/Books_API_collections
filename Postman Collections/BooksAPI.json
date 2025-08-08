@@ -2,50 +2,16 @@
 	"info": {
 		"_postman_id": "0a562b14-9972-453a-b35e-1f863385c733",
 		"name": "Books API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "45421796"
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "API status",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/status",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"status"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "List of books",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/books",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"books"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get single book",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
+						"id": "f926e39a-01eb-492e-8361-0c95c00fcfe0",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
@@ -56,6 +22,49 @@
 					}
 				}
 			],
+			"id": "4b516863-fc6c-4007-9d6b-c3f4be4d8134",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{baseUrl}}/status"
+			},
+			"response": []
+		},
+		{
+			"name": "List of books",
+			"id": "5f89a2f6-e8ad-4a06-b3ca-95f42cfc094d",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{baseUrl}}/books"
+			},
+			"response": []
+		},
+		{
+			"name": "Get single book",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "18402db6-537c-40a6-8f67-5f21a8d01258",
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"id": "ccea4e85-e177-4da1-992a-86e667b05999",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -84,6 +93,7 @@
 				{
 					"listen": "test",
 					"script": {
+						"id": "06266ccf-a61c-4ed9-8402-75b63fc707d6",
 						"exec": [
 							"let expectedStatusCode = pm.iterationData.get(\"statusCode\");\r",
 							"pm.test(\"Validate actual and expected Status code\", function () {\r",
@@ -128,6 +138,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
+						"id": "de4d027d-e4c6-4ed7-8cf4-80aad059d7f6",
 						"exec": [
 							"// Generate random full name manually, save it before sending the request.\r",
 							"let randomName = pm.variables.replaceIn(\"{{$randomFullName}}\");\r",
@@ -140,16 +151,16 @@
 					}
 				}
 			],
+			"id": "282d6b8a-7fde-46af-863a-4f944bbed6d5",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"auth": {
 					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{accessToken}}",
-							"type": "string"
-						}
-					]
+					"bearer": {
+						"token": "{{accessToken}}"
+					}
 				},
 				"method": "POST",
 				"header": [],
@@ -162,15 +173,7 @@
 						}
 					}
 				},
-				"url": {
-					"raw": "{{baseUrl}}/orders",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"orders"
-					]
-				}
+				"url": "{{baseUrl}}/orders"
 			},
 			"response": []
 		},
@@ -180,6 +183,7 @@
 				{
 					"listen": "test",
 					"script": {
+						"id": "cef44ac1-a829-42af-916c-9aa7dd379a40",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
@@ -190,28 +194,20 @@
 					}
 				}
 			],
+			"id": "79967a54-591b-402b-a23e-67575f16d6f6",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"auth": {
 					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{accessToken}}",
-							"type": "string"
-						}
-					]
+					"bearer": {
+						"token": "{{accessToken}}"
+					}
 				},
 				"method": "GET",
 				"header": [],
-				"url": {
-					"raw": "{{baseUrl}}/orders",
-					"host": [
-						"{{baseUrl}}"
-					],
-					"path": [
-						"orders"
-					]
-				}
+				"url": "{{baseUrl}}/orders"
 			},
 			"response": []
 		},
@@ -221,6 +217,7 @@
 				{
 					"listen": "test",
 					"script": {
+						"id": "202a6843-0025-409f-adf6-27b91538b36c",
 						"exec": [
 							"pm.test(\"Status code is 200\", function () {\r",
 							"    pm.response.to.have.status(200);\r",
@@ -250,6 +247,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
+						"id": "d793fd6e-6cbe-42b3-8005-2b5da5ef9d94",
 						"exec": [
 							"console.log(\"Expected Status code is : \" +pm.iterationData.get(\"statusCode\"));\r",
 							"\r",
@@ -262,16 +260,16 @@
 					}
 				}
 			],
+			"id": "c021e78f-a9c0-4c0b-bb0e-ec6d4779539b",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"auth": {
 					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{accessToken}}",
-							"type": "string"
-						}
-					]
+					"bearer": {
+						"token": "{{accessToken}}"
+					}
 				},
 				"method": "GET",
 				"header": [],
@@ -288,6 +286,7 @@
 						{
 							"key": "",
 							"value": null,
+							"type": "text",
 							"disabled": true
 						}
 					],
@@ -307,6 +306,7 @@
 				{
 					"listen": "test",
 					"script": {
+						"id": "52344bd4-4388-4330-8f47-8930401120c5",
 						"exec": [
 							"pm.test(\"Status code is 204\", function () {\r",
 							"    pm.response.to.have.status(204);\r",
@@ -319,6 +319,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
+						"id": "8d1bf3b9-0580-4b30-8f45-95ce385665d5",
 						"exec": [
 							"console.log(\"Expected Status code is : \" +pm.iterationData.get(\"statusCode\"));\r",
 							"\r",
@@ -331,16 +332,16 @@
 					}
 				}
 			],
+			"id": "327dcee6-27ea-4dcb-bd7e-34e02c135dce",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"auth": {
 					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{accessToken}}",
-							"type": "string"
-						}
-					]
+					"bearer": {
+						"token": "{{accessToken}}"
+					}
 				},
 				"method": "PATCH",
 				"header": [],
@@ -378,6 +379,7 @@
 				{
 					"listen": "test",
 					"script": {
+						"id": "1f0294b5-a57b-4a7e-bac6-d2c2b62510b8",
 						"exec": [
 							"pm.test(\"Status code is 204\", function () {\r",
 							"    pm.response.to.have.status(204);\r",
@@ -390,6 +392,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
+						"id": "779ed59b-17ea-4280-a98d-a3c470eebef3",
 						"exec": [
 							"console.log(\"Expected Status code is : \" +pm.iterationData.get(\"statusCode\"));\r",
 							"\r",
@@ -402,16 +405,16 @@
 					}
 				}
 			],
+			"id": "65f1caf8-0a3e-4585-b7eb-302573a7dd90",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"auth": {
 					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "{{accessToken}}",
-							"type": "string"
-						}
-					]
+					"bearer": {
+						"token": "{{accessToken}}"
+					}
 				},
 				"method": "DELETE",
 				"header": [],
@@ -448,6 +451,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
+				"id": "d8dc3bab-72f8-4745-b20b-e5d20e193b0d",
 				"type": "text/javascript",
 				"packages": {},
 				"exec": [
@@ -458,6 +462,7 @@
 		{
 			"listen": "test",
 			"script": {
+				"id": "3eafc9db-eace-482b-bfc2-03a9f52d9eeb",
 				"type": "text/javascript",
 				"packages": {},
 				"exec": [
