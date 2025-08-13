@@ -89,6 +89,19 @@
 		},
 		{
 			"name": "Generate token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8d921062-3212-4d89-bf6e-fe94fc287d4e",
+						"exec": [
+							"pm.environment.set(\"accessToken\", pm.response.json().accessToken);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"id": "82fe9d8d-6a1e-4405-9e6e-295e99b02ea6",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
