@@ -88,6 +88,28 @@
 			"response": []
 		},
 		{
+			"name": "Generate token",
+			"id": "82fe9d8d-6a1e-4405-9e6e-295e99b02ea6",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"clientName\": \"janki\",\r\n   \"clientEmail\": \"janki@example.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl}}/api-clients"
+			},
+			"response": []
+		},
+		{
 			"name": "Order book",
 			"event": [
 				{
